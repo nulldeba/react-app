@@ -8,8 +8,7 @@ class MyWallet extends Component {
     constructor(props) {
         super(props);
         this.balanceRef=React.createRef();
-        this.setValue = this.setValue.bind(this);
-        this.setYourAmount = this.setYourAmount.bind(this);
+        this.transcationValueRef = React.createRef();
         this.debitBalance = this.debitBalance.bind(this);
         this.creditBalance = this.creditBalance.bind(this);
         this.setInitialAmount = this.setInitialAmount.bind(this);
@@ -19,31 +18,25 @@ class MyWallet extends Component {
         amount: 0
     }
 
-    setValue(e) {
 
+    creditBalance() {
+        if(!isNaN(this.transcationValueRef.current.valueAsNumber))
         this.setState({
-            amount: parseInt(e.target.value)
-        })
-    }
-    setYourAmount(e) {
-        this.setState({
-            balance: parseInt(e.target.value)
+            balance: this.state.balance + this.transcationValueRef.current.valueAsNumber
         });
-    }
-
-    creditBalance(amount) {
-        this.setState({
-            balance: this.state.balance + amount
-        })
+        this.transcationValueRef.current.valueAsNumber='';
     }
 
     debitBalance(amount) {
+        if(!isNaN(this.transcationValueRef.current.valueAsNumber))
         this.setState({
-            balance: this.state.balance - amount
+            balance: this.state.balance - this.transcationValueRef.current.valueAsNumber
         })
+        this.transcationValueRef.current.valueAsNumber='';
     }
 
     setInitialAmount() {
+        if(!isNaN(this.balanceRef.current.valueAsNumber))
             this.setState({
                 balance: this.balanceRef.current.valueAsNumber
             });
@@ -57,7 +50,8 @@ class MyWallet extends Component {
             <input type='number'  ref={this.balanceRef} placeholder='Enter your amount' />
             <button onClick={this.setInitialAmount}>Add</button>
             <div>My balance is : {this.state.balance}</div>
-            <Shopping balance={this.state.balance} debitBalance={this.debitBalance} creditBalance={this.creditBalance} setValue={this.setValue} />
+
+            <Shopping balance={this.state.balance} debitBalance={this.debitBalance} creditBalance={this.creditBalance} reference={this.transcationValueRef} />
             <Food balance={this.state.balance} />
             <Activity balance={this.state.balance} />
         </React.Fragment>

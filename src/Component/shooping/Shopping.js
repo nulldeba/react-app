@@ -12,10 +12,10 @@ class Shopping extends Component {
         return (
             <React.Fragment>
                 <h3> Waoo Shopping from {this.props.balance}</h3>
-                <div><input type='number' ref={this.transcationValueRef} /></div>
+                <div><input type='number' ref={this.props.reference} /></div>
                 <div>
-                    <button onClick={() => { this.props.debitBalance(this.transcationValueRef.current.valueAsNumber) }}>debit</button>
-                    <button onClick={() => { this.props.creditBalance(this.transcationValueRef.current.valueAsNumber) }}>credit</button>
+                    <button onClick={() => { this.props.debitBalance() }}>debit</button>
+                    <button onClick={() => { this.props.creditBalance() }}>credit</button>
                 </div>
 
                 <Fashion balance={this.props.balance} />
@@ -25,4 +25,5 @@ class Shopping extends Component {
         );
     }
 }
+
 export default Shopping;
